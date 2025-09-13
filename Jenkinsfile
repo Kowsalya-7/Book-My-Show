@@ -65,13 +65,13 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
+                    withDockerRegistry('https://index.docker.io/v1/', 'dockerhub') {
                         sh '''
                             echo "Building Docker image..."
-                            docker build -t kastrov/bms:latest -f bookmyshow-app/Dockerfile bookmyshow-app
+                            docker build -t kowsalyaganta/bms:latest -f bookmyshow-app/Dockerfile bookmyshow-app
 
                             echo "Pushing Docker image to DockerHub..."
-                            docker push kastrov/bms:latest
+                            docker push kowsalyaganta/bms:latest
                         '''
                     }
                 }
@@ -86,7 +86,7 @@ pipeline {
                     docker rm bms || true
 
                     echo "Running new container on port 3000..."
-                    docker run -d --restart=always --name bms -p 3000:3000 kastrov/bms:latest
+                    docker run -d --restart=always --name bms -p 3000:3000 kowsalya/bms:latest
 
                     echo "Checking running containers..."
                     docker ps -a
