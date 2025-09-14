@@ -103,15 +103,24 @@ pipeline {
         always {
             emailext(
                 attachLog: true,
-                subject: "'${currentBuild.result}' - BMS CI/CD Pipeline",
+                from: 'kowsalyaganta@gmail.com',      
+                subject: "[${currentBuild.result}] - BMS CI/CD Pipeline #${env.BUILD_NUMBER}",
                 body: """
-                    <h3>Build Report</h3>
-                    <p><b>Project:</b> ${env.JOB_NAME}</p>
-                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                    <p><b>Status:</b> ${currentBuild.result}</p>
-                    <p><b>URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                    <html>
+                    <body>
+                        <h2>Build Notification</h2>
+                        <p><b>Project:</b> ${env.JOB_NAME}</p>
+                        <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                        <p><b>Status:</b> ${currentBuild.result}</p>
+                        <p><b>Triggered by:</b> ${currentBuild.getBuildCauses()[0].shortDescription}</p>
+                        <p><b>URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        <hr>
+                        <p>This is an automated email from Jenkins.</p>
+                    </body>
+                    </html>
                 """,
                 to: 'kowsalyaganta@gmail.com',
+                mimeType: 'text/html',                        
                 attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
             )
         }
