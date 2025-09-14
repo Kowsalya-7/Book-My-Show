@@ -100,9 +100,8 @@ pipeline {
                 '''
             }
         }
-    }
 
-    stage('Deploy to EKS Cluster') {
+        stage('Deploy to EKS Cluster') {
             steps {
                 script {
                     sh '''
@@ -126,6 +125,7 @@ pipeline {
                 }
             }
         }
+    }
     
 
     post {
